@@ -115,7 +115,7 @@ function install_node() {
 
     echo "你可以使用以下命令查看保存的文件内容："
     echo "cat ~/nillion/verifier/credentials.json"
-    cat ~/nillion/verifier/credentials.json
+    cat /home/ubuntu/nillion/verifier/credentials.json
     # echo "cat ~/nillion/verifier/public_key"
 
     echo "记得妥善保存这些信息，并避免泄露。"
@@ -173,7 +173,7 @@ function query_logs() {
 
 # 删除节点函数
 function delete_node() {
-    echo "正在备份 /root/nillion/verifier 目录..."
+    echo "正在备份 /home/ubuntu/nillion/verifier 目录..."
     tar -czf /home/ubuntu/nillion/verifier_backup_$(date +%F).tar.gz /home/ubuntu/nillion/verifier
     echo "备份完成。"
 
@@ -226,7 +226,7 @@ function change_rpc() {
 
 # 查看凭证函数
 function view_credentials() {
-    # echo "凭证信息已保存到 /root/nillion/verifier/credentials.json 文件中。"
+    # echo "凭证信息已保存到 /home/ubuntu/nillion/verifier/credentials.json 文件中。"
     
     # echo "以下是保存的文件内容："
     # echo "account_id=address"
