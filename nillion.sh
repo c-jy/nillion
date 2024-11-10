@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#wget -O Nillion.sh https://raw.githubusercontent.com/c-jy/nillion/refs/heads/main/nillion.sh && sed -i 's/\r//' Nillion.sh && chmod +x Nillion.sh && sudo ./Nillion.sh
 # 脚本保存路径
 SCRIPT_PATH="$HOME/Nillion.sh"
 
@@ -12,8 +13,7 @@ fi
 # 主菜单函数
 function main_menu() {
     while true; do
-        clear
-        echo "脚本由推特 @ferdie_jhovie 提供，免费开源，请勿相信收费"
+        # clear
         echo "================================================================"
         # echo "节点社区 Telegram 群组: https://t.me/niuwuriji"
         # echo "节点社区 Telegram 频道: https://t.me/niuwuriji"
@@ -21,7 +21,7 @@ function main_menu() {
         echo "退出脚本，请按键盘 ctrl+c 退出"
         echo "请选择要执行的操作:"
         echo "1) 安装节点"
-        echo "2) 查询日志（需要先使用docker ps来查看id）"
+        echo "2) 查询日志"
         echo "3) 删除节点"
         echo "4) 更换 RPC 并重启节点"
         echo "5) 查看 public_key 和 account_id"
@@ -114,13 +114,14 @@ function install_node() {
     echo "请务必保存这些信息，因为它们在后续操作中非常重要。"
 
     echo "你可以使用以下命令查看保存的文件内容："
-    echo "cat ~/nillion/verifier/account_id"
-    echo "cat ~/nillion/verifier/public_key"
+    echo "cat ~/nillion/verifier/credentials.json"
+    cat ~/nillion/verifier/credentials.json
+    # echo "cat ~/nillion/verifier/public_key"
 
     echo "记得妥善保存这些信息，并避免泄露。"
 
     # 等待用户按任意键继续
-    read -p "按任意键继续进行下一步..."
+    read -p "绑定账号并领水后按任意键继续进行下一步..."
 
     # 使用固定的 RPC 链接
     selected_rpc_url="https://nillion-testnet-rpc.polkachu.com"
@@ -153,16 +154,17 @@ function install_node() {
 # 查询日志函数
 function query_logs() {
     # 提示用户输入容器 ID
-    read -p "请输入要查询日志的容器 ID: " container_id
+    # read -p "请输入要查询日志的容器 ID: " container_id
 
+    container_name="nillion_verifier"
     # 查看 Docker 容器日志
-    echo "正在查询容器 $container_id 的日志..."
+    echo "正在查询容器 $container_name 的日志..."
 
     # 检查容器是否存在
-    if [ "$(docker ps -q -f id=$container_id)" ]; then
-        docker logs -f $container_id --tail 100
+    if [ "$(docker ps -q -f name=$container_name)" ]; then
+        docker logs -f $container_name --tail 100
     else
-        echo "没有运行的容器 $container_id。"
+        echo "没有运行的容器 $container_name"
     fi
 
     # 等待用户按任意键以返回主菜单
@@ -172,7 +174,7 @@ function query_logs() {
 # 删除节点函数
 function delete_node() {
     echo "正在备份 /root/nillion/verifier 目录..."
-    tar -czf /root/nillion/verifier_backup_$(date +%F).tar.gz /root/nillion/verifier
+    tar -czf /home/ubuntu/nillion/verifier_backup_$(date +%F).tar.gz /home/ubuntu/nillion/verifier
     echo "备份完成。"
 
     echo "正在停止并删除 Docker 容器 nillion_verifier..."
@@ -214,7 +216,7 @@ function change_rpc() {
     docker rm nillion_verifier
 
     echo "正在运行新的 Docker 容器..."
-    docker run -v ./nillion/verifier:/var/tmp nillion/verifier:v1.0.1 verify --rpc-endpoint "$new_rpc_url"
+    docker run -d --name nillion_verifier -v ./nillion/verifier:/var/tmp nillion/verifier:v1.0.1 verify --rpc-endpoint "$new_rpc_url"
 
     echo "节点已更新到新的 RPC：$new_rpc_url"
     
@@ -224,12 +226,12 @@ function change_rpc() {
 
 # 查看凭证函数
 function view_credentials() {
-    echo "凭证信息已保存到 /root/nillion/verifier/credentials.json 文件中。"
+    # echo "凭证信息已保存到 /root/nillion/verifier/credentials.json 文件中。"
     
-    echo "以下是保存的文件内容："
-    echo "account_id=address"
-    echo "public_key=pub_key"
-    cat /root/nillion/verifier/credentials.json
+    # echo "以下是保存的文件内容："
+    # echo "account_id=address"
+    # echo "public_key=pub_key"
+    cat /home/ubuntu/nillion/verifier/credentials.json
     echo "--------------------------"
 
     # 等待用户按任意键返回主菜单
