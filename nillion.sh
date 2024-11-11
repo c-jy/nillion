@@ -15,9 +15,6 @@ function main_menu() {
     while true; do
         # clear
         echo "================================================================"
-        # echo "节点社区 Telegram 群组: https://t.me/niuwuriji"
-        # echo "节点社区 Telegram 频道: https://t.me/niuwuriji"
-        # echo "节点社区 Discord 社群: https://discord.gg/GbMV5EcNWF"
         echo "退出脚本，请按键盘 ctrl+c 退出"
         echo "请选择要执行的操作:"
         echo "1) 安装节点"
@@ -161,11 +158,11 @@ function query_logs() {
     echo "正在查询容器 $container_name 的日志..."
 
     # 检查容器是否存在
-    if [ "$(docker ps -q -f name=$container_name)" ]; then
-        docker logs -f $container_name --tail 100
-    else
-        echo "没有运行的容器 $container_name"
-    fi
+    #if [ "$(docker ps -q -f name=$container_name)" ]; then
+        docker logs -f nillion_verifier --tail 100
+    #else
+    #    echo "没有运行的容器 $container_name"
+    #fi
 
     # 等待用户按任意键以返回主菜单
     read -p "按任意键返回主菜单..."
