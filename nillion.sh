@@ -118,7 +118,7 @@ function install_node() {
     echo "记得妥善保存这些信息，并避免泄露。"
 
     # 等待用户按任意键继续
-    read -p "绑定账号并领水后按任意键继续进行下一步..."
+    # read -p "绑定账号并领水后按任意键继续进行下一步..."
 
     # 使用固定的 RPC 链接
     selected_rpc_url="https://nillion-testnet-rpc.polkachu.com"
