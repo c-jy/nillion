@@ -9,8 +9,9 @@ if [ "$(id -u)" -ne "0" ]; then
   exit 1
 fi
 
+ip=$(curl ifconfig.me)
 sleep_time=500
-env=$1
+env=$ip
 function main() {
     while true; do
         container_monitor
@@ -33,7 +34,7 @@ function container_monitor() {
         # sudo docker start -d --name nillion_verifier
         sleep 2
         if [ "$(docker ps -q -f name=$container_name)" ]; then
-            echo "$container_name 正常启动，等待 $sleep_time 秒后重新查询"
+            send_msg "$env 服务器 $container_name 正常启动，继续监控"
         else
             send_msg "$env 服务器 $container_name 启动失败启动，请检查gas是否不足或登录后台检查原因"
         fi
