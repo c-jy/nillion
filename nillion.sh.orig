@@ -15,6 +15,12 @@ function main_menu() {
     while true; do
         # clear
         echo "================================================================"
+<<<<<<< HEAD
+        # echo "节点社区 Telegram 群组: https://t.me/niuwuriji"
+        # echo "节点社区 Telegram 频道: https://t.me/niuwuriji"
+        # echo "节点社区 Discord 社群: https://discord.gg/GbMV5EcNWF"
+=======
+>>>>>>> 8275c257fa38eda5bb46a0d45df387d4b4b6275e
         echo "退出脚本，请按键盘 ctrl+c 退出"
         echo "请选择要执行的操作:"
         echo "1) 安装节点"
@@ -118,7 +124,11 @@ function install_node() {
     echo "记得妥善保存这些信息，并避免泄露。"
 
     # 等待用户按任意键继续
+<<<<<<< HEAD
+    read -p "绑定账号并领水后按任意键继续进行下一步..."
+=======
     # read -p "绑定账号并领水后按任意键继续进行下一步..."
+>>>>>>> 8275c257fa38eda5bb46a0d45df387d4b4b6275e
 
     # 使用固定的 RPC 链接
     selected_rpc_url="https://nillion-testnet-rpc.polkachu.com"
@@ -158,11 +168,19 @@ function query_logs() {
     echo "正在查询容器 $container_name 的日志..."
 
     # 检查容器是否存在
+<<<<<<< HEAD
+    if [ "$(docker ps -q -f name=$container_name)" ]; then
+        docker logs -f $container_name --tail 100
+    else
+        echo "没有运行的容器 $container_name"
+    fi
+=======
     #if [ "$(docker ps -q -f name=$container_name)" ]; then
         docker logs -f nillion_verifier --tail 100
     #else
     #    echo "没有运行的容器 $container_name"
     #fi
+>>>>>>> 8275c257fa38eda5bb46a0d45df387d4b4b6275e
 
     # 等待用户按任意键以返回主菜单
     read -p "按任意键返回主菜单..."
@@ -213,7 +231,11 @@ function change_rpc() {
     docker rm nillion_verifier
 
     echo "正在运行新的 Docker 容器..."
+<<<<<<< HEAD
+    docker run -v ./nillion/verifier:/var/tmp nillion/verifier:v1.0.1 verify --rpc-endpoint "$new_rpc_url"
+=======
     docker run -d --name nillion_verifier -v ./nillion/verifier:/var/tmp nillion/verifier:v1.0.1 verify --rpc-endpoint "$new_rpc_url"
+>>>>>>> 8275c257fa38eda5bb46a0d45df387d4b4b6275e
 
     echo "节点已更新到新的 RPC：$new_rpc_url"
     
